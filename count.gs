@@ -8,15 +8,20 @@ async function count() {
   });
   const n = tasks.items.length;
   const tasklist = Tasks.Tasklists.get(TASKLIST_ID);
+  const old_title = tasklist.title;
+  let new_title = old_title;
   if (n > 0) {
-    const match = tasklist.title.match(/\((\d+)\)$/);
+    const match = new_title.match(/\((\d+)\)$/);
     if (match) {
-      tasklist.title = tasklist.title.replace(/\((\d+)\)$/, `(${n})`);
+      new_title = new_title.replace(/\((\d+)\)$/, `(${n})`);
     } else {
-      tasklist.title += ` (${n})`;
+      new_title += ` (${n})`;
     }
   } else {
-    tasklist.title = tasklist.title.replace(/ \(\d+\)$/, '');
+    new_title = new_title.replace(/ \(\d+\)$/, '');
   }
-  Tasks.Tasklists.patch(tasklist, TASKLIST_ID);
+  if (new_title != old_title) {
+    tasklist.title = new_title;
+    Tasks.Tasklists.patch(tasklist, TASKLIST_ID);
+  }
 }

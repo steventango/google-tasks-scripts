@@ -23,6 +23,11 @@ async function move(task, source, target) {
   Tasks.Tasks.remove(source, task.id);
 }
 
+async function removeDue(task, tasklist) {
+  task.due = null;
+  Tasks.Tasks.patch(task, tasklist, task.id);
+}
+
 async function icebox() {
   const tasks = Tasks.Tasks.list(SOURCE_TASKLIST, {
     showCompleted: false,
@@ -39,6 +44,7 @@ async function icebox() {
     } else {
       const due = new Date(task.due);
       if (now - due > ICEBOX_OVERDUE_DELAY) {
+        requests.push(removeDue(task, SOURCE_TASKLIST));
         requests.push(move(task, SOURCE_TASKLIST, TARGET_TASKLIST));
       }
     }
@@ -66,6 +72,7 @@ async function thaw() {
 }
 
 async function main() {
-  await Promise.all([icebox(), thaw()]);
+  await icebox();
+  await thaw();
 }
 

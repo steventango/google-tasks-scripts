@@ -7,7 +7,12 @@ async function count() {
     maxResults: 100
   });
   const n = tasks.items.length;
-  const tasklist = Tasks.Tasklists.get(TASKLIST_ID);
+  let tasklist;
+  try {
+    tasklist = Tasks.Tasklists.get(TASKLIST_ID);
+  } catch (error) {
+    console.warn('An error occurred:', error);
+  }
   const old_title = tasklist.title;
   let new_title = old_title;
   if (n > 0) {

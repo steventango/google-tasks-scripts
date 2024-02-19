@@ -11,7 +11,8 @@ async function count() {
   try {
     tasklist = Tasks.Tasklists.get(TASKLIST_ID);
   } catch (error) {
-    console.warn('An error occurred:', error);
+    console.error('An error occurred:', error);
+    return;
   }
   const old_title = tasklist.title;
   let new_title = old_title;

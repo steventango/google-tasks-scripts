@@ -23,14 +23,14 @@ async function count(tasklist_id) {
     if (tasks.nextPageToken) {
       number += "+";
     }
-    const match = new_title.match(/\((\d+)\)$/);
+    const match = new_title.match(/\(([\d+]+)\)$/);
     if (match) {
-      new_title = new_title.replace(/\((\d+)\)$/, `(${number})`);
+      new_title = new_title.replace(/\([\d+]+\)$/, `(${number})`);
     } else {
       new_title += ` (${number})`;
     }
   } else {
-    new_title = new_title.replace(/ \(\d+\)$/, '');
+    new_title = new_title.replace(/ \([\d+]+\)$/, '');
   }
   if (new_title != old_title) {
     tasklist.title = new_title;

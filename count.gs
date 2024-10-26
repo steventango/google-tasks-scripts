@@ -1,15 +1,16 @@
-const TASKLIST_ID = "<redacted>";
+const TASKLIST_IDS = [
+  "<redacted>"
+];
 
-
-async function count() {
-  const tasks = Tasks.Tasks.list(TASKLIST_ID, {
+async function count(tasklist_id) {
+  const tasks = Tasks.Tasks.list(tasklist_id, {
     showCompleted: false,
     maxResults: 100
   });
   const n = tasks.items.length;
   let tasklist;
   try {
-    tasklist = Tasks.Tasklists.get(TASKLIST_ID);
+    tasklist = Tasks.Tasklists.get(tasklist_id);
   } catch (error) {
     console.error('An error occurred:', error);
     return;
@@ -28,6 +29,12 @@ async function count() {
   }
   if (new_title != old_title) {
     tasklist.title = new_title;
-    Tasks.Tasklists.patch(tasklist, TASKLIST_ID);
+    Tasks.Tasklists.patch(tasklist, tasklist_id);
+  }
+}
+
+async function counts() {
+  for (let tasklist_id of TASKLIST_IDS) {
+    await count(tasklist_id);
   }
 }

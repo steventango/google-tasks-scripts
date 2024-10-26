@@ -2,6 +2,7 @@ const TASKLIST_IDS = [
   "<redacted>"
 ];
 
+
 async function count(tasklist_id) {
   const tasks = Tasks.Tasks.list(tasklist_id, {
     showCompleted: false,
@@ -18,11 +19,15 @@ async function count(tasklist_id) {
   const old_title = tasklist.title;
   let new_title = old_title;
   if (n > 0) {
+    let number = n;
+    if (tasks.nextPageToken) {
+      number += "+";
+    }
     const match = new_title.match(/\((\d+)\)$/);
     if (match) {
-      new_title = new_title.replace(/\((\d+)\)$/, `(${n})`);
+      new_title = new_title.replace(/\((\d+)\)$/, `(${number})`);
     } else {
-      new_title += ` (${n})`;
+      new_title += ` (${number})`;
     }
   } else {
     new_title = new_title.replace(/ \(\d+\)$/, '');

@@ -14,25 +14,23 @@ function list_tasks() {
     maxResults: 100
   });
   for (let task of tasks.items) {
-    console.log(task);
+    console.log(`${task.updated}\n${task.title}\n${task.notes}`);
   }
 }
 
 async function move(task, source, target) {
-  if (task.due !== null) {
-    const date = new Date(task.due);
-    const date_string = date.toLocaleDateString();
-    if (task.notes) {
-      task.notes += `\nOriginal due date: ${date_string}`;
-    } else {
-      task.notes = `Original due date: ${dateString}`;
-    }
-  }
   Tasks.Tasks.insert(task, target);
   Tasks.Tasks.remove(source, task.id);
 }
 
 async function removeDue(task, tasklist) {
+  const due = new Date(task.due);
+  const date = due.toLocaleDateString();
+  if (task.notes) {
+    task.notes += `\nOriginal due date: ${date}`;
+  } else {
+    task.notes = `Original due date: ${date}`;
+  }
   task.due = null;
   Tasks.Tasks.patch(task, tasklist, task.id);
 }

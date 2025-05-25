@@ -19,6 +19,15 @@ function list_tasks() {
 }
 
 async function move(task, source, target) {
+  if (task.due !== null) {
+    const date = new Date(task.due);
+    const date_string = date.toLocaleDateString();
+    if (task.notes) {
+      task.notes += `\nOriginal due date: ${date_string}`;
+    } else {
+      task.notes = `Original due date: ${dateString}`;
+    }
+  }
   Tasks.Tasks.insert(task, target);
   Tasks.Tasks.remove(source, task.id);
 }

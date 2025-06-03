@@ -25,7 +25,7 @@ async function move(task, source, target) {
 
 async function removeDue(task, tasklist) {
   const due = new Date(task.due);
-  const date = due.toLocaleDateString();
+  const date = due.toString();
   if (task.notes) {
     task.notes += `\nOriginal due date: ${date}`;
   } else {
